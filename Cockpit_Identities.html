@@ -1,0 +1,110 @@
+<!--
+title: Cockpit Identities
+description: 
+published: 1
+date: 2022-10-24T23:00:49.477Z
+tags: 
+editor: ckeditor
+dateCreated: 2022-10-24T23:00:34.093Z
+-->
+
+<h1><strong>Cockpit Identities</strong></h1>
+<p>User and group management plugin for Houston UI (Cockpit)</p>
+<figure class="image image_resized" style="width:830px;"><img src="https://github.com/45Drives/cockpit-identities/raw/main/docs/identities-example.gif" alt="Usage example"></figure>
+<h2><strong>Features</strong></h2>
+<h3><strong>User Management</strong></h3>
+<ul>
+  <li>Create delete user accounts</li>
+  <li>Edit account details<ul>
+      <li>Add and remove groups</li>
+      <li>Change home directory, login shell, account description</li>
+    </ul>
+  </li>
+  <li>Terminate session (sends SIGHUP to all of the user's processes)</li>
+  <li>Manage credentials<ul>
+      <li>Account login<ul>
+          <li>Set/change password</li>
+          <li>Lock account</li>
+          <li>Manage password expiry</li>
+        </ul>
+      </li>
+      <li>Samba<ul>
+          <li>Set/change/remove Samba password (smbpasswd)</li>
+        </ul>
+      </li>
+      <li>SSH<ul>
+          <li>Generate passwordless public/private key pair</li>
+          <li>Copy public SSH key from UI to clipboard</li>
+          <li>Test passwordless SSH to a host</li>
+          <li>Manage authorized SSH access keys from other hosts</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>View, filter, and export login history</li>
+</ul>
+<h3><strong>Group Management</strong></h3>
+<ul>
+  <li>View groups and group members</li>
+  <li>Create groups</li>
+  <li>Delete groups (if it's a non-system, non-primary group)</li>
+</ul>
+<h1><strong>Installation</strong></h1>
+<h2><strong>Ubuntu 20.04</strong></h2>
+<h3><strong>From 45Drives Repo (Recommended, Ubuntu 20.04 only)</strong></h3>
+<pre><code class="language-plaintext">curl -sSL https://repo.45drives.com/setup | sudo bash
+sudo apt install cockpit-identities</code></pre>
+<h3><strong>Direct from .deb</strong></h3>
+<p>Installing this way may work for other versions of Ubuntu and Debian, but it is unsupported. You won't get automatic updates this way.</p>
+<pre><code class="language-plaintext">curl -LO https://github.com/45Drives/cockpit-identities/releases/download/v0.1.10/cockpit-identities_0.1.10-1focal_all.deb
+sudo apt install ./cockpit-identities_0.1.10-1focal_all.deb</code></pre>
+<h2><strong>Rocky 8</strong></h2>
+<h3><strong>From 45Drives Repo (Recommended, Rocky 8 only)</strong></h3>
+<pre><code class="language-plaintext">curl -sSL https://repo.45drives.com/setup | sudo bash
+sudo dnf install cockpit-identities</code></pre>
+<h3><strong>Direct from .rpm</strong></h3>
+<p>Installing this way may work for other versions of Rocky/Centos/RHEL/Fedora/etc, but it is unsupported. You won't get automatic updates this way.</p>
+<pre><code class="language-plaintext"># dnf or yum
+sudo dnf install https://github.com/45Drives/cockpit-identities/releases/download/v0.1.10/cockpit-identities-0.1.10-1.el8.noarch.rpm</code></pre>
+<h2><strong>Generic Installation</strong></h2>
+<ol>
+  <li>Install Dependencies</li>
+</ol>
+<pre><code class="language-plaintext"># debian-like
+cockpit
+bash
+coreutils
+hostname
+libc-bin
+passwd
+psmisc
+samba
+samba-common-bin
+sudo
+util-linux
+perl
+openssh-client
+# RHEL-like
+cockpit
+bash
+coreutils
+glibc-common
+hostname
+passwd
+psmisc
+samba-common-tools
+shadow-utils
+sudo
+util-linux
+util-linux-user
+perl
+openssh</code></pre>
+<ol>
+  <li>Download pre-built archive and install</li>
+</ol>
+<pre><code class="language-plaintext">curl -LO https://github.com/45Drives/cockpit-identities/releases/download/v0.1.10/cockpit-identities_0.1.10_generic.zip
+unzip cockpit-identities_0.1.10_generic.zip
+cd cockpit-identities_0.1.10_generic
+# no need to run `make` first, the plugin is pre-built
+sudo make install</code></pre>
+<p>If you haven't already, consider getting <a href="https://github.com/45drives/cockpit-file-sharing">cockpit-file-sharing</a> for managing Samba and NFS shares.</p>

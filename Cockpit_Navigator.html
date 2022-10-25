@@ -1,0 +1,128 @@
+<!--
+title: Cockpit Navigator
+description: 
+published: 1
+date: 2022-10-24T22:56:07.386Z
+tags: 
+editor: ckeditor
+dateCreated: 2022-10-24T22:55:52.252Z
+-->
+
+<h1><strong>Cockpit Navigator</strong></h1>
+<p>A Featureful File System Browser for Cockpit - remotely browse, manage, edit, upload, and download files on your server through your web browser.</p>
+<h2><strong>Features</strong></h2>
+<p>With no command line use needed, you can:</p>
+<ul>
+  <li>Navigate the entire filesystem,</li>
+  <li>Create, delete, and rename files,</li>
+  <li>Edit file contents,</li>
+  <li>Edit file ownership and permissions,</li>
+  <li>Create symbolic links to files and directories,</li>
+  <li>Reorganize files through cut, copy, and paste,</li>
+  <li><strong>Upload files by dragging and dropping</strong>,</li>
+  <li><strong>Download files and directories</strong>.</li>
+</ul>
+<figure class="table" style="width:max-content;">
+  <table style="background-color:rgb(13, 17, 23);">
+    <thead>
+      <tr>
+        <th style="border-bottom:1px solid var(--color-border-default);border-left:1px solid var(--color-border-default);border-right:1px solid var(--color-border-default);border-top:1px solid var(--color-border-default);padding:6px 13px;"><strong>Browsing Filesystem</strong></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border-bottom:1px solid var(--color-border-default);border-left:1px solid var(--color-border-default);border-right:1px solid var(--color-border-default);border-top:1px solid var(--color-border-default);padding:6px 13px;">
+          <figure class="image"><img src="https://github.com/45Drives/cockpit-navigator/raw/main/doc/ui_root.png" alt="User Interface"></figure>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</figure>
+<figure class="table" style="width:max-content;">
+  <table style="background-color:rgb(13, 17, 23);">
+    <thead>
+      <tr>
+        <th style="border-bottom:1px solid var(--color-border-default);border-left:1px solid var(--color-border-default);border-right:1px solid var(--color-border-default);border-top:1px solid var(--color-border-default);padding:6px 13px;"><strong>Editing Content</strong></th>
+        <th style="border-bottom:1px solid var(--color-border-default);border-left:1px solid var(--color-border-default);border-right:1px solid var(--color-border-default);border-top:1px solid var(--color-border-default);padding:6px 13px;"><strong>Editing Properties</strong></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border-bottom:1px solid var(--color-border-default);border-left:1px solid var(--color-border-default);border-right:1px solid var(--color-border-default);border-top:1px solid var(--color-border-default);padding:6px 13px;">
+          <figure class="image"><img src="https://github.com/45Drives/cockpit-navigator/raw/main/doc/ui_editor.png" alt="Edit Contents"></figure>
+        </td>
+        <td style="border-bottom:1px solid var(--color-border-default);border-left:1px solid var(--color-border-default);border-right:1px solid var(--color-border-default);border-top:1px solid var(--color-border-default);padding:6px 13px;">
+          <figure class="image"><img src="https://github.com/45Drives/cockpit-navigator/raw/main/doc/ui_prefs.png" alt="Edit Preferences"></figure>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</figure>
+<h1><strong>Installation</strong></h1>
+<h2><strong>From Github Release</strong></h2>
+<h3><strong>Ubuntu</strong></h3>
+<ol>
+  <li><code>$ wget https://github.com/45Drives/cockpit-navigator/releases/download/v0.5.8/cockpit-navigator_0.5.8-1focal_all.deb</code></li>
+  <li><code># apt install ./cockpit-navigator_0.5.8-1focal_all.deb</code></li>
+</ol>
+<h3><strong>EL7</strong></h3>
+<ol>
+  <li><code># yum install https://github.com/45Drives/cockpit-navigator/releases/download/v0.5.8/cockpit-navigator-0.5.8-1.el7.noarch.rpm</code></li>
+</ol>
+<h3><strong>EL8</strong></h3>
+<ol>
+  <li><code># dnf install https://github.com/45Drives/cockpit-navigator/releases/download/v0.5.8/cockpit-navigator-0.5.8-1.el8.noarch.rpm</code></li>
+</ol>
+<h2><strong>From Source</strong></h2>
+<ol>
+  <li>Ensure dependencies are installed: <code>cockpit</code>, <code>python3</code>, <code>rsync</code>, <code>zip</code>.</li>
+  <li><code>$ git clone https://github.com/45Drives/cockpit-navigator.git</code></li>
+  <li><code>$ cd cockpit-navigator</code></li>
+  <li><code>$ git checkout &lt;version&gt;</code> (v0.5.8 is latest)</li>
+  <li><code># make install</code></li>
+</ol>
+<h2><strong>From 45Drives Repositories</strong></h2>
+<h3><strong>Automatic Repo Setup with Script</strong></h3>
+<p>curl -sSL https://repo.45drives.com/setup -o setup-repo.sh
+  sudo bash setup-repo.sh</p>
+<h4><strong>Ubuntu</strong></h4>
+<p>sudo apt install cockpit-navigator</p>
+<h4><strong>El7/EL8</strong></h4>
+<p>sudo dnf install cockpit-navigator</p>
+<h3><strong>Manually</strong></h3>
+<h4><strong>Ubuntu</strong></h4>
+<ol>
+  <li>Import GPG Key</li>
+</ol>
+<pre><code class="language-plaintext">wget -qO - https://repo.45drives.com/key/gpg.asc | sudo gpg --dearmor -o /usr/share/keyrings/45drives-archive-keyring.gpg</code></pre>
+<ol>
+  <li>Add 45drives.sources</li>
+</ol>
+<pre><code class="language-plaintext">cd /etc/apt/sources.list.d
+sudo curl -sSL https://repo.45drives.com/lists/45drives.sources -o /etc/apt/sources.list.d/45drives.sources
+sudo apt update</code></pre>
+<ol>
+  <li>Install Package</li>
+</ol>
+<pre><code class="language-plaintext">sudo apt install cockpit-navigator</code></pre>
+<h4><strong>EL7</strong></h4>
+<ol>
+  <li>Add 45drives.repo</li>
+</ol>
+<pre><code class="language-plaintext">sudo curl -sSL https://repo.45drives.com/lists/45drives.repo -o /etc/yum.repos.d/45drives.repo
+sudo sed -i 's/el8/el7/g;s/EL8/EL7/g' /etc/yum.repos.d/45drives.repo
+sudo yum clean all</code></pre>
+<ol>
+  <li>Install Package</li>
+</ol>
+<pre><code class="language-plaintext">sudo yum install cockpit-navigator</code></pre>
+<h4><strong>EL8</strong></h4>
+<ol>
+  <li>Add 45drives.repo</li>
+</ol>
+<pre><code class="language-plaintext">sudo curl -sSL https://repo.45drives.com/lists/45drives.repo -o /etc/yum.repos.d/45drives.repo
+sudo dnf clean all</code></pre>
+<ol>
+  <li>Install Package</li>
+</ol>
+<pre><code class="language-plaintext">sudo dnf install cockpit-navigator</code></pre>

@@ -1,0 +1,25 @@
+<!--
+title: Installing OpenZFS on Debian 11
+description: 
+published: 1
+date: 2022-10-24T22:12:38.863Z
+tags: 
+editor: ckeditor
+dateCreated: 2022-10-24T22:10:47.923Z
+-->
+
+<h2>Installing OpenZFS</h2>
+<p>Install the repository management system:</p>
+<pre><code class="language-plaintext">apt-get install -y software-properties-common</code></pre>
+<p>Enable contrib repositories:</p>
+<pre><code class="language-plaintext">apt-add-repository contrib</code></pre>
+<p>Upgrade system:</p>
+<pre><code class="language-plaintext">apt update
+...
+apt -y upgrade</code></pre>
+<p>Reboot system to boot with the new kernel:</p>
+<pre><code class="language-plaintext">reboot</code></pre>
+<p>Ssh back in to the host, and install the needed packages:</p>
+<pre><code class="language-plaintext">apt install -y linux-headers-$(uname -r) linux-image-amd64 spl kmod zfsutils-linux zfs-dkms zfs-zed</code></pre>
+<p>Say “OK” to imkompatability warning, and load the newly build kernel module:</p>
+<pre><code class="language-plaintext">modprobe zfs</code></pre>

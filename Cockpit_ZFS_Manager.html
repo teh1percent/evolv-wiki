@@ -1,0 +1,71 @@
+<!--
+title: Cockpit ZFS Manager
+description: 
+published: 1
+date: 2022-10-24T22:47:07.069Z
+tags: 
+editor: ckeditor
+dateCreated: 2022-10-24T22:45:16.080Z
+-->
+
+<h1><strong>Cockpit ZFS Manager</strong></h1>
+<figure class="image"><img src="https://camo.githubusercontent.com/6be9bfd4d148d60bc29dd6eebd3e9e572fb16b8c9cb712f7ad0c4f6ce943e76c/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f762f72656c656173652f34356472697665732f636f636b7069742d7a66732d6d616e616765723f696e636c7564655f70726572656c6561736573267374796c653d666c61742d73717561726526636f6c6f723d627269676874677265656e" alt="GitHub Tag"></figure>
+<p><strong>An interactive ZFS on Linux admin package for Cockpit.</strong></p>
+<h2><strong>Requirements</strong></h2>
+<ul>
+  <li>Cockpit: 201+</li>
+  <li>NFS (Optional)</li>
+  <li>Samba: 4+ (Optional)</li>
+  <li>ZFS: 0.8+</li>
+</ul>
+<p>Tested Distributions</p>
+<h2><strong>Installation</strong></h2>
+<p>Copy zfs folder to cockpit</p>
+<pre><code class="language-plaintext">git clone https://github.com/optimans/cockpit-zfs-manager.git
+
+sudo cp -r cockpit-zfs-manager/zfs /usr/share/cockpit</code></pre>
+<h4><strong>Samba</strong></h4>
+<p>Auto generated snapshot names are created in YYYY.MM.DD-HH.MM.SS format.</p>
+<p>It is recommended to add the following properties to the Samba configuration file to allow access to Previous Versions in Windows Explorer:</p>
+<p>$ sudo nano /etc/samba/smb.conf</p>
+<p>Append to [global] section or individual share sections</p>
+<pre><code class="language-plaintext">shadow: snapdir = .zfs/snapshot
+shadow: sort = desc
+shadow: format = %Y.%m.%d-%H.%M.%S
+shadow: localtime = yes	
+vfs objects = acl_xattr shadow_copy2
+</code></pre>
+<h2><strong>Using Cockpit ZFS Manager</strong></h2>
+<p>Login to Cockpit as a privileged user and click ZFS from the navigation list.</p>
+<p>A Welcome to Cockpit ZFS Manager modal will display and allow you to configure initial settings.</p>
+<p>Note: Inline help is currently available in modals. Documentation will be created at a later date.</p>
+<h2><strong>Notes</strong></h2>
+<h4><strong>Storage Pools</strong></h4>
+<p>New storage pools are created with the following properties set (not visible in Create Storage Pool modal):</p>
+<ul>
+  <li>aclinherit=passthrough</li>
+  <li>acltype=posixacl</li>
+  <li>casesensitivity=sensitive</li>
+  <li>normalization=formD</li>
+  <li>sharenfs=off</li>
+  <li>sharesmb=off</li>
+  <li>utf8only=on</li>
+  <li>xattr=sa</li>
+</ul>
+<h4><strong>File Systems</strong></h4>
+<p>New file systems are created with the following properties set (not visible in Create File System modal):</p>
+<ul>
+  <li>normalization=formD</li>
+  <li>utf8only=on</li>
+</ul>
+<p>Passphrase is currently supported for encrypted file systems.</p>
+<p>If SELinux contexts for Samba is selected, the following properties are set:</p>
+<ul>
+  <li>context=system_u:object_r:samba_share_t:s0</li>
+  <li>fscontext=system_u:object_r:samba_share_t:s0</li>
+  <li>defcontext=system_u:object_r:samba_share_t:s0</li>
+  <li>rootcontext=system_u:object_r:samba_share_t:s0</li>
+</ul>
+<h4><strong>Samba</strong></h4>
+<p>ZFS always creates shares in /var/lib/samba/usershares folder when ShareSMB property is enabled. This is also the case even if Cockpit ZFS Manager is managing the shares. To avoid duplicate shares of the same file system, it is recommended to configure a different usershares folder path if required or to disable usershares in the Samba configuration file.</p>
+<p>If enabled, Cockpit ZFS Manager manages shares for the file systems only. Samba global configuration will need to be configured externally.</p>

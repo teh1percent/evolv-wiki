@@ -1,0 +1,174 @@
+<!--
+title: Cockpit File Sharing
+description: 
+published: 1
+date: 2022-10-24T22:52:42.661Z
+tags: 
+editor: ckeditor
+dateCreated: 2022-10-24T22:52:25.777Z
+-->
+
+<h1><strong>Cockpit File Sharing</strong></h1>
+<p>A Cockpit plugin for managing Samba and NFS shares.</p>
+<figure class="image image_resized" style="width:830px;"><img src="https://github.com/45Drives/cockpit-file-sharing/raw/main/docs/create-samba-share-example.gif" alt="Example of creating a Samba share"></figure>
+<h2><strong>Features</strong></h2>
+<h3><strong>Samba</strong></h3>
+<ul>
+  <li>Manage global setings<ul>
+      <li>Server description, workgroup, log level</li>
+      <li>Any other settings can be configured through the <i>Advanced Settings</i> dropdown</li>
+      <li>One-click advanced configuration global MacOS share optimization</li>
+    </ul>
+  </li>
+  <li>Manage shares<ul>
+      <li>Create, edit, and remove shares</li>
+      <li>Manage allow-list of valid users and groups</li>
+      <li>One-click advanced configuration for Windows ACLs, shadow copy, MacOS share optimization, and audit logging</li>
+      <li>Create non-existing share path from UI</li>
+      <li>Manage Linux-side share path permissions</li>
+      <li>Ceph-specific options<ul>
+          <li>Quota</li>
+          <li>Layout pool</li>
+          <li>Cephfs remount for properly reporting quota to client</li>
+        </ul>
+      </li>
+      <li>Export and import of configuration (same format as <code>/etc/samba/smb.conf</code>)</li>
+    </ul>
+  </li>
+</ul>
+<p>User and group management was removed from cockpit-file-sharing in favour of managing Samba users through the new <a href="https://github.com/45drives/cockpit-identities">cockpit-identities</a> plugin. Install that plugin to manage groups and Samba passwords.</p>
+<h3><strong>NFS</strong></h3>
+<ul>
+  <li>Create, edit, and remove shares</li>
+  <li>Manage individual client settings</li>
+  <li>Export and import of configuration (same format as <code>/etc/exports</code>)</li>
+</ul>
+<h1><strong>Installation</strong></h1>
+<p>Recommended: <a href="https://github.com/45drives/cockpit-identities">cockpit-identities</a> for managing Samba password.</p>
+<h2><strong>Ubuntu 20.04</strong></h2>
+<h3><strong>From 45Drives Repo (Recommended, Ubuntu 20.04 only)</strong></h3>
+<pre><code class="language-plaintext">curl -sSL https://repo.45drives.com/setup | sudo bash
+sudo apt install cockpit-file-sharing</code></pre>
+<h3><strong>Direct from .deb</strong></h3>
+<p>Installing this way may work for other versions of Ubuntu and Debian, but it is unsupported. You won't get automatic updates this way.</p>
+<pre><code class="language-plaintext">curl -LO https://github.com/45Drives/cockpit-file-sharing/releases/download/v3.2.8/cockpit-file-sharing_3.2.8-1focal_all.deb
+sudo apt install ./cockpit-file-sharing_3.2.8-1focal_all.deb</code></pre>
+<h2><strong>Rocky 8</strong></h2>
+<h3><strong>From 45Drives Repo (Recommended, Rocky 8 only)</strong></h3>
+<pre><code class="language-plaintext">curl -sSL https://repo.45drives.com/setup | sudo bash
+sudo dnf install cockpit-file-sharing</code></pre>
+<h3><strong>Direct from .rpm</strong></h3>
+<p>Installing this way may work for other versions of Rocky/Centos/RHEL/Fedora/etc, but it is unsupported. You won't get automatic updates this way.</p>
+<pre><code class="language-plaintext"># dnf or yum
+sudo dnf install https://github.com/45Drives/cockpit-file-sharing/releases/download/v3.2.8/cockpit-file-sharing-3.2.8-1.el8.noarch.rpm</code></pre>
+<h2><strong>Generic Installation</strong></h2>
+<ol>
+  <li>Install Dependencies</li>
+</ol>
+<pre><code class="language-plaintext"># debian-like
+cockpit
+attr
+coreutils
+libc-bin
+nfs-kernel-server
+samba
+samba-common-bin
+systemd
+winbin
+# RHEL-like
+cockpit
+attr
+coreutils
+glibc-common
+nfs-utils
+samba-common-tools
+samba-winbind-clients
+system</code></pre>
+<p>2. Download pre-built archive and install</p>
+<pre><code class="language-plaintext">curl -LO https://github.com/45Drives/cockpit-file-sharing/releases/download/v3.2.8/cockpit-file-sharing_3.2.8_generic.zip
+unzip cockpit-file-sharing_3.2.8_generic.zip
+cd cockpit-file-sharing_3.2.8_generic
+# no need to run `make` first, the plugin is pre-built
+sudo make install</code></pre>
+<h1><strong>Usage</strong></h1>
+<h2><strong>Samba Management Tab</strong></h2>
+<p>The Samba tab in cockpit-file-sharing is a front end UI for the <a href="https://linux.die.net/man/8/net">net conf</a> registry used by Samba. Any shares manually configured in <code>/etc/samba/smb.conf</code> won't show up in the UI, but they can be imported with the <code>Import</code> button at the bottom of the page. Your Samba configuration file must have <code>include = registry</code> in the <code>[global]</code> section, which can be automatically configured in one click in the UI.</p>
+<h3><strong>Adding a Share</strong></h3>
+<p>Simply click the <code>+</code> in the top right of the shares list, fill out the required fields, and click <code>Confirm</code>.</p>
+<h4><strong>Fields/Settings</strong></h4>
+<ul>
+  <li>Share Name - Unique name for the share</li>
+  <li>Share Description - Optional description for the share</li>
+  <li>Path - The path to share out from the server</li>
+  <li>Valid Users/Groups<ul>
+      <li>Allow-lists for users and groups</li>
+      <li>By default, any user or group is allowed</li>
+    </ul>
+  </li>
+  <li>Guest Ok - Allow accessing share with no password, privileges mapped to <code>guest account</code> (default=<code>nobody</code>)</li>
+  <li>Read Only - Disallow creation/modification of files/directories</li>
+  <li>Browsable - Controls whether this share is seen in the list of available shares in a net view and in the browse list</li>
+  <li>Windows ACLs - Administer share permissions from Windows, sets the following advanced settings</li>
+</ul>
+<pre><code class="language-plaintext">map acl inherit = yes
+acl_xattr:ignore system acls = yes
+vfs objects = acl_xattr</code></pre>
+<ul>
+  <li>Shadow Copy - Expose per-file snapshots to users, sets the following advanced settings<ul>
+      <li>ZFS:</li>
+    </ul>
+  </li>
+</ul>
+<pre><code class="language-plaintext">vfs objects = shadow_copy2
+shadow:snapdir = .zfs/snapshot
+shadow:sort = desc
+shadow:format = %Y-%m-%d-%H%M%S</code></pre>
+<ul>
+  <li>Ceph:</li>
+</ul>
+<pre><code class="language-plaintext">vfs objects = ceph_snapshots</code></pre>
+<ul>
+  <li>MacOS Share - Optimize share for MacOS, sets the following advanced settings</li>
+</ul>
+<pre><code class="language-plaintext">vfs objects = catia fruit streams_xattr
+fruit:encoding = native
+fruit:metadata = stream
+fruit:zero_file_id = yes
+fruit:nfs_aces = no</code></pre>
+<ul>
+  <li>Audit Logs - Turn on audit logging, sets the following advanced settings</li>
+</ul>
+<pre><code class="language-plaintext">vfs objects = full_audit
+full_audit:priority = notice
+full_audit:facility = local5
+full_audit:success = connect disconnect mkdir rmdir read write rename
+full_audit:failure = connect
+full_audit:prefix = %u|%I|%S</code></pre>
+<ul>
+  <li>Advanced Settings - Dropdown for configuring any other share parameters. See <a href="https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html">smb.conf(5)</a> for a full list of parameters.</li>
+</ul>
+<h3><strong>Editing a Share</strong></h3>
+<p>Click the pencil icon at the right side of the share list entry to edit the share. Settings are the same as creating a share, except you cannot change the share name or path.</p>
+<h3><strong>Removing a Share</strong></h3>
+<p>Click the trash can icon at the right side of the share list entry, then click <code>Yes</code> in the confirmation prompt to delete the share. This only removes the share definition from Samba, it does <strong>not</strong> remove any files.</p>
+<h3><strong>User and Group Management</strong></h3>
+<p>User and group management was removed from cockpit-file-sharing, in favour of implementing it in a separate plugin, <a href="https://github.com/45drives/cockpit-identities">cockpit-identities</a></p>
+<h3><strong>SeDiskOperatorPrivilege</strong></h3>
+<p>This section was removed from cockpit-file-sharing.</p>
+<h3><strong>Import Shares from </strong><code><strong>/etc/samba/smb.conf</strong></code></h3>
+<p>To allow cockpit-file-sharing to manage existing shares defined in <code>/etc/samba/smb.conf</code>, click the <code>Import configuration from /etc/samba/smb.conf</code> button at the bottom of the page. It will confirm before overwriting your current share settings, and prompt to replace the content of <code>/etc/samba/smb.conf</code> with only <code>include = registry</code> in the <code>[global]</code> section, backing up the original content to <code>/etc/samba/smb.conf.bak.~1~</code>.</p>
+<h2><strong>NFS Management Tab</strong></h2>
+<p>The NFS tab in cockpit-file-sharing is a graphical way of editing the contents of <code>/etc/exports.d/cockpit-file-sharing.exports</code>, which has the same syntax as <code>/etc/exports</code>.</p>
+<h3><strong>Adding a Share</strong></h3>
+<p>Much like the Samba tab, simply click the <code>+</code> in the top right of the shares list to start adding an NFS export. The only settings are the path to the directory you want to share, and a list of clients consiting of a host and a comma-separated list of export options for that host. See <a href="https://linux.die.net/man/5/exports">exports(5)</a> for options and machine name formats for the host field.</p>
+<h3><strong>Editing a Share</strong></h3>
+<p>Click the pencil icon at the right side of the share list entry to edit the share. Settings are the same as creating a share.</p>
+<h3><strong>Removing a Share</strong></h3>
+<p>Click the trash can icon at the right side of the share list entry, then click <code>Yes</code> in the confirmation prompt to delete the share. This only removes the share definition from Samba, it does <strong>not</strong> remove any files.</p>
+<h3><strong>Import Shares (Exports) from </strong><code><strong>/etc/exports</strong></code></h3>
+<p>To allow cockpit-file-sharing to manage existing shares defined in <code>/etc/exports</code>, do the following (as root):</p>
+<ol>
+  <li>Create a backup copy of exports: <code>cp /etc/exports /etc/exports.bak</code></li>
+  <li>Move exports to cockpit-file-sharing managed location: <code>mv /etc/exports /etc/exports.d/cockpit-file-sharing.exports</code></li>
+  <li>Create an empty default exports file: <code>touch /etc/exports</code></li>
+</ol>

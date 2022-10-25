@@ -1,0 +1,45 @@
+<!--
+title: Cockpit install on Debian 11
+description: 
+published: 1
+date: 2022-10-24T23:57:19.234Z
+tags: 
+editor: ckeditor
+dateCreated: 2022-10-24T22:06:13.144Z
+-->
+
+<h3><strong>Install Cockpit on Debian 11</strong></h3>
+<p>By default, the Cockpit package is included in the Debian 11 default repository. You can install it easily using the following command:</p>
+<pre><code class="language-plaintext">apt-get install cockpit -y</code></pre>
+<p>After the successfull installation, start the Cockpit service and enable it to start at system reboot:</p>
+<pre><code class="language-plaintext">systemctl start cockpit
+systemctl enable cockpit</code></pre>
+<p>&nbsp;</p>
+<p>To check the status of the Cockpit, run the following command:</p>
+<pre><code class="language-plaintext">systemctl status cockpit</code></pre>
+<p>You should see the following output:</p>
+<pre><code class="language-plaintext">? cockpit.service - Cockpit Web Service
+     Loaded: loaded (/lib/systemd/system/cockpit.service; static)
+     Active: active (running) since Sat 2021-10-09 07:34:10 UTC; 5s ago
+TriggeredBy: ? cockpit.socket
+       Docs: man:cockpit-ws(8)
+    Process: 16211 ExecStartPre=/usr/sbin/remotectl certificate --ensure --user=root --group=cockpit-ws --selinux-type= (code=exited, status=0&gt;
+   Main PID: 16214 (cockpit-tls)
+      Tasks: 1 (limit: 2341)
+     Memory: 1.3M
+        CPU: 101ms
+     CGroup: /system.slice/cockpit.service
+             ??16214 /usr/lib/cockpit/cockpit-tls
+
+Oct 09 07:34:10 debian11 systemd[1]: Starting Cockpit Web Service...
+Oct 09 07:34:10 debian11 systemd[1]: Started Cockpit Web Service.
+</code></pre>
+<p>By default, Cockpit listens on port 9090. You can check it with the following command:</p>
+<pre><code class="language-plaintext">ss -antpl | grep 9090</code></pre>
+<p>You should see the following output:</p>
+<pre><code class="language-plaintext">LISTEN 0      4096               *:9090            *:*    users:(("cockpit-tls",pid=16214,fd=3),("systemd",pid=1,fd=79))</code></pre>
+<p>&nbsp;</p>
+<h4>Cockpit Modules</h4>
+<p><a href="/Cockpit_Modules">Cockpit Modules</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
